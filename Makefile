@@ -1,6 +1,6 @@
 all: build-junk
 
-BUILDDIR = /tmp/build/http-streams
+BUILDDIR = /tmp/build/pipes-http
 
 ifdef V
 MAKEFLAGS=-R
@@ -9,7 +9,7 @@ MAKEFLAGS=-s -R
 REDIRECT=>/dev/null
 endif
 
-.PHONY: all dirs test build-core junk build-junk tests build-tests benchmarks \
+.PHONY: all dirs test junk build-junk tests build-tests benchmarks \
 	build-benchmarks build-tags config
 
 #
@@ -47,7 +47,7 @@ $(BUILDDIR)/.dir:
 
 
 config: config.h
-config.h: Setup.hs http-streams.cabal
+config.h: Setup.hs pipes-http.cabal
 	@/bin/echo -e "CABAL\tconfigure"
 	cabal configure --enable-tests
 
@@ -56,23 +56,6 @@ config.h: Setup.hs http-streams.cabal
 # Build core library.
 #
 
-build-core: dirs config $(BUILDDIR)/core/httpclient.bin httpclient
-
-$(BUILDDIR)/core/httpclient.bin: $(CORE_SOURCES)
-	@/bin/echo -e "GHC\t$@"
-	$(GHC) --make -O2 -threaded  \
-		-prof -fprof-auto \
-		-outputdir $(BUILDDIR)/core \
-		-i"$(BUILDDIR):src" \
-		-I"." \
-		-o $@ \
-		src/HttpClient.hs
-	@/bin/echo -e "STRIP\t$@"
-	strip $@
-
-httpclient:
-	@/bin/echo -e "LN -s\t$@"
-	ln -s $(BUILDDIR)/core/client.bin $@
 
 junk: build-junk
 build-junk: dirs config tests/Snippet.hs $(BUILDDIR)/junk/snippet.bin snippet tags

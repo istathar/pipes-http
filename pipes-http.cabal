@@ -39,7 +39,7 @@ library
                      HsOpenSSL,
                      pipes-zlib,
                      pipes-attoparsec,
-                     pipes-openssl,
+--                   pipes-openssl,
                      mtl,
                      transformers,
                      network,

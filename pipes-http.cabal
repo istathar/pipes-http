@@ -1,11 +1,11 @@
 cabal-version:       >= 1.10
-name:                http-streams
+name:                pipes-http
 version:             0.6.0.2
-synopsis:            An HTTP client using io-streams
+synopsis:            An HTTP client using pipes
 description:
  /Overview/
  .
- An HTTP client, using the Snap Framework's 'io-streams' library to
+ An HTTP client, using the 'pipes' ecosystem to 
  hande the streaming IO. The API is optimized for ease of use for the
  rather common case of code needing to query web services and deal with
  the result.
@@ -21,8 +21,8 @@ copyright:           © 2012-2013 Operational Dynamics Consulting, Pty Ltd and O
 category:            Web
 tested-with:         GHC == 7.6
 stability:           experimental
-homepage:            http://research.operationaldynamics.com/projects/http-streams/
-bug-reports:         https://github.com/afcowie/http-streams/issues
+homepage:            http://research.operationaldynamics.com/projects/pipes-http/
+bug-reports:         https://github.com/afcowie/pipes-http/issues
 
 build-type:          Custom
 
@@ -35,9 +35,11 @@ library
                      blaze-builder,
                      bytestring,
                      case-insensitive,
-                     io-streams >= 1.1 && <1.2,
+                     pipes-core,
                      HsOpenSSL,
-                     openssl-streams >= 1.1 && <1.2,
+                     pipes-zlib,
+                     pipes-attoparsec,
+                     pipes-openssl,
                      mtl,
                      transformers,
                      network,
@@ -114,7 +116,7 @@ test-suite           check
 
 source-repository    head
   type:              git
-  location:          git://github.com/afcowie/http-streams.git
+  location:          git://github.com/afcowie/pipes-http.git
 
 
 -- vim: set tabstop=21 expandtab:

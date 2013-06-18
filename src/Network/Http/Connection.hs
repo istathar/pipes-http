@@ -226,11 +226,12 @@ openConnection h1' p = do
 --
 openConnectionSSL :: SSLContext -> Hostname -> Port -> IO Connection
 openConnectionSSL ctx h1' p = do
-    s <- socket AF_INET Stream defaultProtocol
-
     is <- getAddrInfo Nothing (Just h1) (Just $ show p)
 
     let a = addrAddress $ head is
+        f = addrFamily $ head is
+    s <- socket f Stream defaultProtocol
+
     connect s a
 
     ssl <- SSL.connection ctx s
@@ -364,7 +365,7 @@ getHostname c q =
 -- content from the server:
 --
 -- >     receiveResponse c (\p i -> do
--- >         m <- Streams.read b
+-- >         m <- Streams.read i
 -- >         case m of
 -- >             Just bytes -> putStr bytes
 -- >             Nothing    -> return ())
@@ -373,7 +374,7 @@ getHostname c q =
 -- 'InputStream', which is the whole point of having an @io-streams@
 -- based HTTP client library.
 --
--- The final value from the handler function.  is the return value of
+-- The final value from the handler function is the return value of
 -- @receiveResponse@, if you need it.
 --
 {-

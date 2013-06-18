@@ -1,5 +1,5 @@
 --
--- HTTP client for use with io-streams
+-- HTTP client for use with pipes
 --
 -- Copyright © 2012-2013 Operational Dynamics Consulting, Pty Ltd
 --
@@ -25,9 +25,6 @@ import qualified Blaze.ByteString.Builder as Builder
 import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as S
 import Debug.Trace
-import System.Exit (exitSuccess)
-import System.IO.Streams (InputStream, OutputStream, stdout)
-import qualified System.IO.Streams as Streams
 
 
 main :: IO ()

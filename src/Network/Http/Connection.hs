@@ -1,5 +1,5 @@
 --
--- HTTP client for use with io-streams
+-- HTTP client for use with pipes
 --
 -- Copyright © 2012-2013 Operational Dynamics Consulting, Pty Ltd
 --
@@ -45,9 +45,6 @@ import Data.Word (Word16)
 import Network.Socket
 import OpenSSL.Session (SSL, SSLContext)
 import qualified OpenSSL.Session as SSL
-import System.IO.Streams (InputStream, OutputStream, stdout)
-import qualified System.IO.Streams as Streams
-import qualified System.IO.Streams.SSL as Streams hiding (connect)
 
 import Network.Http.ResponseParser
 import Network.Http.Types

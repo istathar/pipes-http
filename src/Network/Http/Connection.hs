@@ -26,6 +26,7 @@ module Network.Http.Connection (
     getHostname,
     sendRequest,
     receiveResponse,
+    receiveResponseRaw,
     emptyBody,
     fileBody,
     inputStreamBody,
@@ -387,6 +388,32 @@ receiveResponse :: Connection -> (Response -> InputStream ByteString -> IO β) -
 receiveResponse c handler = do
     p  <- readResponseHeader i
     i' <- readResponseBody p i
+
+    x  <- handler p i'
+
+    Streams.skipToEof i'
+
+    return x
+  where
+    i = cIn c
+
+--
+-- | This is a specialized variant of 'receiveResponse' that /explicitly/ does
+-- not handle the content encoding of the response body stream (it will not
+-- decompress anything). Unless you really want the raw gzipped content coming
+-- down from the server, use @receiveResponse@.
+--
+{-
+    See notes at receiveResponse.
+-}
+receiveResponseRaw :: Connection -> (Response -> InputStream ByteString -> IO β) -> IO β
+receiveResponseRaw c handler = do
+    p  <- readResponseHeader i
+    let p' = p {
+        pContentEncoding = Identity
+    }
+
+    i' <- readResponseBody p' i
 
     x  <- handler p i'
 
